@@ -1,14 +1,17 @@
 'use strict'
 
 const express = require('express');
+const cors = require('cors');
 const app = express();
+app.use(cors());
 
 const indexRoute = require('./Routes/index');
 const usersRoute = require('./Routes/users');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const config = require('./config');
 
-const url = 'mongodb+srv://admin:abcd1234@cluster0-ixxhf.mongodb.net/test?retryWrites=true';
+const url = config.bd_string;
 const options = {    
     poolSize: 5,
     useNewUrlParser: true
