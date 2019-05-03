@@ -34,9 +34,33 @@ mongoose.connection.on('connected', () =>{
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 app.use('/', indexRoute);
 app.use('/users', usersRoute);
 
+const port = normalizaPort(process.env.PORT || '3000');
 
-app.listen(3000);
+function normalizaPort(val) {
+    const port = parseInt(val, 10);
+    if (isNaN(port)) {
+        return val;
+    }
+
+    if (port >= 0) {
+        return port;
+    }
+
+    return false;
+}
+
+
+app.listen(port, function () {
+    console.log('PORTA: ' + port);
+})
 module.exports = app;
